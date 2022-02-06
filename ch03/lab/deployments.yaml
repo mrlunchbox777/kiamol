@@ -16,6 +16,10 @@ spec:
       containers:
         - name: api
           image: kiamol/ch03-numbers-api
+          resources:
+            limits:
+              memory: 256m
+              cpu: 100m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,6 +39,10 @@ spec:
       containers:
         - name: web
           image: kiamol/ch03-numbers-web
+          resources:
+            limits:
+              memory: 256m
+              cpu: 100m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,6 +62,10 @@ spec:
       containers:
         - name: web
           image: kiamol/ch03-numbers-web:v2
+          resources:
+            limits:
+              memory: 256m
+              cpu: 100m
 ---
 apiVersion: v1
 kind: Service
