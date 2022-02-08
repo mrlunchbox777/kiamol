@@ -18,8 +18,8 @@ spec:
           image: kiamol/ch03-numbers-api
           resources:
             limits:
-              memory: 256m
-              cpu: 100m
+              memory: 256Mi
+              cpu: 500m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -41,8 +41,8 @@ spec:
           image: kiamol/ch03-numbers-web
           resources:
             limits:
-              memory: 256m
-              cpu: 100m
+              memory: 256Mi
+              cpu: 500m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,15 +64,16 @@ spec:
           image: kiamol/ch03-numbers-web:v2
           resources:
             limits:
-              memory: 256m
-              cpu: 100m
+              memory: 256Mi
+              cpu: 500m
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: lab-numbers-api
-  name: lab-numbers-api-svc
+    version: v1
+  name: numbers-api
 spec:
   ports:
   - name: "80"
@@ -81,4 +82,23 @@ spec:
     targetPort: 80
   selector:
     app: lab-numbers-api
+    version: v1
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: lab-numbers-web
+    version: v2
+  name: numbers-web-v2
+spec:
+  ports:
+  - name: "8088"
+    port: 8088
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: lab-numbers-web
+    version: v1
+  type: LoadBalancer
